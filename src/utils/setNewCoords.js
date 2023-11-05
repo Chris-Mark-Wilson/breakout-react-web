@@ -102,7 +102,7 @@ export const setNewCoords = (
           if (direction > 180) {
             angleOfIncidence = 270 - direction;
           } else if (direction < 180) {
-            angleOfIncidence = 90 - direction;
+            angleOfIncidence = 90 - (direction-90);
           } else angleOfIncidence = 0;
   
           //ok so far...
@@ -122,7 +122,7 @@ export const setNewCoords = (
           if (direction > 180) {
             angleOfIncidence = 270 - direction;
           } else if (direction < 180) {
-            angleOfIncidence = 90 - direction;
+            angleOfIncidence = 90 - (direction-90);
           } else angleOfIncidence = 0;
   
           //ok so far...
