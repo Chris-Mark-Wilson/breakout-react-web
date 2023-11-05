@@ -44,6 +44,7 @@ export const GameScreen = () => {
     },[count])
 
     useEffect(() => { 
+        
         if(keyState['ArrowLeft']) {
             setBatProps(current => {
                 return {...current, x: current.x - 10}
@@ -65,12 +66,11 @@ export const GameScreen = () => {
     };
 
     return (
-<div>
-      <Wall />
+<>      <Wall />
       <Ball />
       <Bat inputRef={inputRef} />
-    
-    </div>
+    {gameOver&&<button style={{position:"absolute",top:"70%",left:"70%"}} onClick={onPressHandler}>click</button>}
+      </>
   );
 };
 

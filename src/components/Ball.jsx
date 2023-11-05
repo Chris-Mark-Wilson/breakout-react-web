@@ -35,7 +35,7 @@ export const Ball = () => {
           ballCoords,
           setBallCoords,
           windowWidth,
-
+windowHeight,
           batProps
         );
       }, 10);
@@ -51,6 +51,7 @@ export const Ball = () => {
         position: "absolute",
         top: ballCoords.y,
         left: ballCoords.x,
+        borderRadius:"50%"
       }}
     ></div>
   );

@@ -28,6 +28,6 @@ export const Bat=({inputRef})=>{
    
 
 return(
-  <div tabIndex="0" ref={inputRef} style={{width:batProps.width,height:10,backgroundColor:"black",position:"absolute",top:batProps.y,left:batProps.x,borderTopWidth:10,borderRadius:batProps.width/2}}></div>
+  <div tabIndex="0" ref={inputRef} style={{outline:"none",width:batProps.width,height:10,backgroundColor:"black",position:"absolute",top:batProps.y,left:batProps.x,borderTopWidth:10,borderRadius:batProps.width/2}}></div>
 )
 }
