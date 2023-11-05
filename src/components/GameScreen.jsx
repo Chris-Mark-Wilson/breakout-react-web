@@ -65,24 +65,7 @@ export const GameScreen = () => {
     };
 
     return (
-        <div style={{ 
-            display: "flex",
-            boxSizing: "border-box",
-    backgroundColor: "lightgrey",
-    alignItems: "center",
-    justifyContent: "center",
-    border:"1px solid green",
-    
-    width: "100%",
-    height: "90%"}}>
-      {gameOver && (
-        <button style={{  backgroundColor: "white",
-        position: "absolute",
-        top: "70%",
-        left: "70%",}} onClick={onPressHandler}>
-        Tap to start
-        </button>
-      )}
+<div>
       <Wall />
       <Ball />
       <Bat inputRef={inputRef} />
