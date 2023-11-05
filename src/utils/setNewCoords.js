@@ -6,37 +6,38 @@ export const setNewCoords = (
     scrWidth,
     bat) => {
     let { x, y, direction } = ballCoords;
-    const speed = 10;
+    const speed = 5;
     let xv = 0;
     let yv = 0;
   
     // calculate new position based on direction
+  ///////sort this lot out its bouncing at 90 all the time
+
+    // if (direction > 0 && direction < 90) {
+    //   xv = Math.sin((direction * 3.14) / 180);
+    //   yv = Math.cos((direction * 3.14) / 180);
+    //   x += xv * speed;
+    //   y -= yv * speed;
   
-    if (direction > 0 && direction < 90) {
-      xv = Math.sin((direction * 3.14) / 180);
-      yv = Math.cos((direction * 3.14) / 180);
-      x += xv * speed;
-      y -= yv * speed;
+    // } else if (direction > 90 && direction < 180) {
+    //   xv = Math.sin(((direction - 90) * 3.14) / 180);
+    //   yv = Math.cos(((direction - 90) * 3.14) / 180);
+    //   x += xv * speed;
+    //   y += yv * speed;
   
-    } else if (direction > 90 && direction < 180) {
-      xv = Math.sin(((direction - 90) * 3.14) / 180);
-      yv = Math.cos(((direction - 90) * 3.14) / 180);
-      x += xv * speed;
-      y += yv * speed;
+    // } else if (direction > 180 && direction < 270) {
+    //   xv = Math.sin(((direction - 180) * 3.14) / 180);
+    //   yv = Math.cos(((direction - 180) * 3.14) / 180);
+    //   x -= xv * speed;
+    //   y += yv * speed;
   
-    } else if (direction > 180 && direction < 270) {
-      xv = Math.sin(((direction - 180) * 3.14) / 180);
-      yv = Math.cos(((direction - 180) * 3.14) / 180);
-      x -= xv * speed;
-      y += yv * speed;
-  
-    } else if (direction > 270 && direction < 360) {
-      xv = Math.sin(((direction - 270) * 3.14) / 180);
-      yv = Math.cos(((direction - 270) * 3.14) / 180);
+    // } else if (direction > 270 && direction < 360) {
+    //   xv = Math.sin(((direction - 270) * 3.14) / 180);
+    //   yv = Math.cos(((direction - 270) * 3.14) / 180);
    
-      x -= xv * speed;
-      y -= yv * speed;
-    }
+    //   x -= xv * speed;
+    //   y -= yv * speed;
+    // }
   
     if (direction === 90) {
       x += 1 * speed;
@@ -58,7 +59,7 @@ export const setNewCoords = (
       if (direction < 90) {
         direction = 360 - direction;
       } else if (direction > 90&&direction<180) {
-        direction = 180 - direction + 180;
+        direction = 270 - (direction - 90);
       } else if (direction === 90) {
         direction = 270;
       }
@@ -132,7 +133,7 @@ export const setNewCoords = (
         }
       }
     }
-    // console.log(direction,x,y,bat.x,bat.y)
+    console.log(direction)
     setBallCoords({ x, y, direction });
   }; //end function
   
