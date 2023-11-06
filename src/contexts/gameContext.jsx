@@ -10,7 +10,7 @@ export const GameProvider = ({children}) => {
 
     const [ballCoords, setBallCoords] = useState({ x: 0, y: 0,direction:45 });
     const [gameOver, setGameOver] = useState(true);
-    const [batProps, setBatProps] = useState({ x: 0, y: 0, width: 50 });
+    const [batProps, setBatProps] = useState({ x: 0, y: 0, width: 50,angle:0 });
     const windowWidth = window.innerWidth
     const windowHeight = window.innerHeight;
     const [motionData, setMotionData] = useState({

@@ -38,7 +38,7 @@ export const Ball = () => {
 windowHeight,
           batProps
         );
-      }, 10);
+      }, 1);
     }
   }, [gameOver, ballCoords]);
 

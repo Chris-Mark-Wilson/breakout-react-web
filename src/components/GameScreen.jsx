@@ -12,7 +12,7 @@ export const GameScreen = () => {
     const[keyState,setKeyState]=useState({});
  
     const {
-        gameOver, setGameOver,setBatProps
+        gameOver, setGameOver,batProps,setBatProps,windowHeight
     } = useContext(GameContext);
 
 
@@ -40,7 +40,7 @@ export const GameScreen = () => {
     useEffect(() => {
         setTimeout(() => {
             setCount(count + 1)
-        },1)
+        },2)
     },[count])
 
     useEffect(() => { 
@@ -55,7 +55,30 @@ export const GameScreen = () => {
                     return {...current, x: current.x + 10}
                 })
             }
-    }, [count,keyState])
+            if(keyState['ArrowUp']){
+                setBatProps(current => {
+                    return {...current, angle: current.angle + 5}
+                })
+             console.log(batProps.x,batProps.y)
+            }
+            if(keyState['ArrowDown']){
+                setBatProps(current => {
+                    return {...current, angle: current.angle - 5}
+                })
+                console.log(batProps.x,batProps.y)
+            }
+            if(keyState[' ']){
+                setBatProps(current => {
+                    return {...current, y: current.y - 4}
+                })
+            }
+            if(!keyState[' ']&&batProps.y<windowHeight-50){
+                setBatProps(current => {
+                    return {...current, y: current.y + 1}
+                })
+            }
+
+    }, [count,keyState,batProps])
     
     
 

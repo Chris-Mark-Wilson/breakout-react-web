@@ -28,6 +28,12 @@ export const Bat=({inputRef})=>{
    
 
 return(
-  <div tabIndex="0" ref={inputRef} style={{outline:"none",width:batProps.width,height:10,backgroundColor:"black",position:"absolute",top:batProps.y,left:batProps.x,borderTopWidth:10,borderRadius:batProps.width/2}}></div>
+  <div tabIndex="0" ref={inputRef} style={{outline:"none",width:batProps.width, 
+  height: "50px",  
+  border:" solid 5px #000",
+  borderColor:"#000 transparent transparent transparent",
+  borderRadius:" 50%/50px 50px 0 0",
+position:"absolute",top:batProps.y,left:batProps.x,
+transform:`rotate(${batProps.angle}deg)` }}></div>
 )
 }
