@@ -6,7 +6,7 @@ import { setNewCoords } from "../utils/setNewCoords";
 import { GameContext } from "../contexts/gameContext";
 
 export const Ball = () => {
-  const { batProps, windowWidth, windowHeight, gameOver } = useContext(
+  const { batProps, windowWidth, windowHeight, gameOver,setGameOver } = useContext(
     GameContext
   )
   const [ballCoords, setBallCoords] = useState({
@@ -36,7 +36,8 @@ export const Ball = () => {
           setBallCoords,
           windowWidth,
 windowHeight,
-          batProps
+          batProps,
+          setGameOver
         );
       }, 1);
     }
