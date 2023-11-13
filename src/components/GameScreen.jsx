@@ -58,18 +58,18 @@ export const GameScreen = () => {
             if(keyState['x']){
                 if(batProps.angle<45){
                 setBatProps(current => {
-                    return {...current, angle: current.angle + 5}
+                    return {...current, angle: current.angle + 2}
                 })
             }
-             console.log(batProps.x,batProps.y)
+            
             }
             if(keyState['z']){
                 if(batProps.angle>-45){
                 setBatProps(current => {
-                    return {...current, angle: current.angle - 5}
+                    return {...current, angle: current.angle - 2}
                 })
             }
-                console.log(batProps.x,batProps.y)
+               
             }
             if(keyState[' ']){
                 setBatProps(current => {

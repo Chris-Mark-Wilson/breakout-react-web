@@ -16,7 +16,7 @@ export const Bat=({inputRef})=>{
       
               setBatProps((bat) => {
                 const newBat={...bat}
-                newBat.x= windowWidth / 2 - bat.width / 2
+                newBat.x= windowWidth / 2 
                 newBat.y=windowHeight - 50,
                 newBat.width=100
                   return newBat
@@ -34,10 +34,10 @@ return(
   border:" solid 5px #000",
   borderColor:"#000 transparent transparent transparent",
   borderRadius:" -50%/-50px -50px 0 0",
-position:"absolute",top:batProps.y,left:batProps.x,
+position:"absolute",top:batProps.y,left:batProps.x-(batProps.width/2),
 transform:`rotate(${batProps.angle}deg)` }}>
 </div>
-  <div style={{backgroundColor:"red",position:"absolute",height:"4px",width:"4px",top:batProps.y+25,left:batProps.x+(batProps.width/2)}}></div>
+  <div style={{backgroundColor:"red",position:"absolute",height:"4px",width:"4px",top:batProps.y+25,left:batProps.x}}></div>
 </>
 )
 }
