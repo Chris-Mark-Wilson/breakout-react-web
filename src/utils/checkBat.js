@@ -12,4 +12,4 @@ export const checkBat=(leftx, lefty, rightx, righty, ballx, bally) => {
    
   return bally > expectedY - 2
   //the -2 is a bt of a fudge factor to account for the ball moving faster than the bat
-  }
+}
