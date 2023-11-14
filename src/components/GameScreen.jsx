@@ -9,8 +9,8 @@ import { setNewCoords } from "../utils/setNewCoords";
 
 export const GameScreen = () => {
     const inputRef = useRef(null)
-    const [count,setCount]=useState(0)
-    const[keyState,setKeyState]=useState({});
+   
+   
  
     const {
         gameOver, setGameOver,batProps,setBatProps,windowHeight,windowWidth,ballCoords,setBallCoords
@@ -19,65 +19,18 @@ export const GameScreen = () => {
 
     useEffect ( () => {
         inputRef.current.focus();
+        window.addEventListener("keydown", (e) => {
+            if (e.key === " ") {
+                setGameOver(false);
+            }
+        });
     }, [gameOver]);
 
-    useEffect(()=>{
 
-    window.addEventListener('keydown',function(e){
-       setKeyState(state=>{
-        const newState={...state}
-        newState[e.key]=true;
-        return newState
-       })
-    },true);    
-    window.addEventListener('keyup',function(e){
-        setKeyState(state=>{
-            const newState={...state}
-            newState[e.key]=false;
-            return newState
-           })
-    }, true);
-},[])
-    useEffect(() => {
-        setTimeout(() => {
-            setCount(count + 1)
-        },10)
-    },[count])
+  
+ 
 
-    useEffect(() => { 
-        
-        if(keyState['ArrowLeft']) {
-            setBatProps(current => {
-                return {...current, x: current.x - 10}
-            })
-         }
-            if(keyState['ArrowRight']) {
-                setBatProps(current => {
-                    return {...current, x: current.x + 10}
-                })
-            }
-            if(keyState['x']){
-                if(batProps.angle<34){
-                setBatProps(current => {
-                    return {...current, angle: current.angle + 2}
-                })
-            }
-            
-            }
-            if(keyState['z']){
-                if(batProps.angle>-34){
-                setBatProps(current => {
-                    return {...current, angle: current.angle - 2}
-                })
-            }
-               
-            }
-           if(keyState[' ']){
-               setGameOver(false)
-           }    
-           
-
-    }, [count,keyState,batProps])
+    
     
     
 
