@@ -1,4 +1,4 @@
-
+import { checkBat } from "./checkBat";
 
 export const setNewCoords = (
     ballCoords,
@@ -96,22 +96,25 @@ export const setNewCoords = (
   //calculate X positions of edges of bat
   const batXLeft = bat.x - (Math.cos((bat.angle * 3.14) / 180) * bat.width/2) 
   const batXRight = bat.x + (Math.cos((bat.angle * 3.14) / 180) * bat.width/2)
+
   
   if ((y >= batYLeft && y <= batYRight) || (y >= batYRight && y <= batYLeft) || (y >= batYLeft && y <= batYLeft + 5 && bat.angle === 0)) {
+    // console.log(checkBat(batXLeft,batYLeft,batXRight,batYRight,x,y))
     // below bat top edge, above bat bottom edge
-    console.log("\\\\\\\\\\\\\\\\\\\\\\\\")
-    console.log("bat.x is centre of bat")
-    console.log(batYLeft, "bat Y", batYRight)
-      console.log(batXLeft, "bat X", batXRight)
-      console.log("actual batLeft coords", bat.x-(bat.width/2), bat.y)
-      console.log("ball coords", x, y)
-      console.log("bat angle", bat.angle)
-      console.log("newWidth", batXRight - batXLeft)
-      console.log("actualWidth", bat.width)
-      console.log("batYleft-batYright", batYLeft - batYRight)
+    // console.log("\\\\\\\\\\\\\\\\\\\\\\\\")
+    // console.log("bat.x is centre of bat")
+    // console.log(batYLeft, "bat Y", batYRight)
+    //   console.log(batXLeft, "bat X", batXRight)
+    //   console.log("actual batLeft coords", bat.x-(bat.width/2), bat.y)
+    //   console.log("ball coords", x, y)
+    //   console.log("bat angle", bat.angle)
+    //   console.log("newWidth", batXRight - batXLeft)
+    //   console.log("actualWidth", bat.width)
+    //   console.log("batYleft-batYright", batYLeft - batYRight)
       console.log("hit bat Y")
     console.log("\\\\\\\\\\\\\\\\\\\\\\\\")
-    if (x > batXLeft && x < batXRight) {
+    // if (x > batXLeft && x < batXRight) {
+      if  (checkBat(batXLeft,batYLeft,batXRight,batYRight,x,y)){
       //within bat width
       console.log("hit bat X")
       console.log("direction before", direction)
