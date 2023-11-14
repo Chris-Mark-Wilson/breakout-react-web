@@ -5,7 +5,7 @@ import { Bat } from "../components/Bat";
 import { GameContext } from "../contexts/gameContext";
 import { useContext, useState } from "react";
 import { useRef, useEffect } from "react";
-import { setNewCoords } from "../utils/setNewCoords";
+
 
 export const GameScreen = () => {
     const inputRef = useRef(null)
@@ -46,14 +46,25 @@ export const GameScreen = () => {
 
     useEffect(() => { 
         
-        if(keyState['ArrowLeft']) {
+        if (keyState['ArrowLeft']) {
+           
             setBatProps(current => {
-                return {...current, x: current.x - 10}
+                if (current.x > current.width / 2) {
+                    return { ...current, x: current.x - 10 }
+                } else {
+                    return current
+                }
             })
-         }
-            if(keyState['ArrowRight']) {
-                setBatProps(current => {
-                    return {...current, x: current.x + 10}
+        }
+         
+        if (keyState['ArrowRight']) {
+                
+            setBatProps(current => {
+                if (current.x < windowWidth - current.width / 2) {
+                    return { ...current, x: current.x + 10 }
+                } else {
+                    return current
+                }
                 })
             }
             if(keyState['x']){
