@@ -10,6 +10,6 @@ export const checkBat=(leftx, lefty, rightx, righty, ballx, bally) => {
     // Check if the calculated y-coordinate matches the actual bally
     console.log(expectedY,bally)
    
-  return bally > expectedY - 15
+  return bally > expectedY - 2
   //the -2 is a bt of a fudge factor to account for the ball moving faster than the bat
   }
