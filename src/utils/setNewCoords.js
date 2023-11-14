@@ -97,8 +97,13 @@ export const setNewCoords = (
   const batXLeft = bat.x - (Math.cos((bat.angle * 3.14) / 180) * bat.width/2) 
   const batXRight = bat.x + (Math.cos((bat.angle * 3.14) / 180) * bat.width/2)
 
+  const highCorner = Math.min(batYLeft, batYRight) 
   
-  if ((y >= batYLeft && y <= batYRight) || (y >= batYRight && y <= batYLeft) || (y >= batYLeft && y <= batYLeft + 5 && bat.angle === 0)) {
+  const lowCorner = Math.max(batYLeft, batYRight)
+
+  if (y >= highCorner) {
+    //below highest edge of bat
+
     // console.log(checkBat(batXLeft,batYLeft,batXRight,batYRight,x,y))
     // below bat top edge, above bat bottom edge
     // console.log("\\\\\\\\\\\\\\\\\\\\\\\\")
@@ -111,39 +116,52 @@ export const setNewCoords = (
     //   console.log("newWidth", batXRight - batXLeft)
     //   console.log("actualWidth", bat.width)
     //   console.log("batYleft-batYright", batYLeft - batYRight)
-      console.log("hit bat Y")
-    console.log("\\\\\\\\\\\\\\\\\\\\\\\\")
-    // if (x > batXLeft && x < batXRight) {
-      if  (checkBat(batXLeft,batYLeft,batXRight,batYRight,x,y)){
+      console.log("below high edge of bat")
+    // console.log("\\\\\\\\\\\\\\\\\\\\\\\\")
+    if (x > batXLeft && x < batXRight) {
       //within bat width
-      console.log("hit bat X")
-      console.log("direction before", direction)
-      if (direction > 180) {
-        if (bat.angle < 0) {
-          direction=(360-(direction-180))-Math.abs(bat.angle)
-        }else if(bat.angle>0){
-          direction=(360-(direction-180))+bat.angle
-        }else if(bat.angle===0){
-          direction=360-(direction-180)
+      console.log("within bat width")
+      if (checkBat(batXLeft, batYLeft, batXRight, batYRight, x, y)) {
+       //hit bat
+        console.log("hit bat")
+        console.log("direction before", direction)
+        if (direction > 180) {
+          if (bat.angle < 0) {
+            direction = (360 - (direction - 180)) - Math.abs(bat.angle)
+            y -= speed;
+          } else if (bat.angle > 0) {
+            direction = (360 - (direction - 180)) + bat.angle
+            y -= speed;
+          } else if (bat.angle === 0) {
+            direction = 360 - (direction - 180)
+            y -= speed;
+          }
+        } else if (direction < 180) {
+          if (bat.angle <= 0) {
+            direction = 180 - direction - Math.abs(bat.angle)
+            y -= speed;
+          } else if (bat.angle > 0) {
+            direction = 180 - direction + bat.angle
+            y -= speed;
+          }
+        } else if (direction === 180) {
+          direction = 0
+          y -= speed;
         }
-      } else if (direction < 180) {
-        if (bat.angle <= 0) {
-         direction=180-direction-Math.abs(bat.angle)
-        }else if(bat.angle>0){
-          direction=180-direction+bat.angle
-        }
-      } else if (direction === 180) {
-  direction=0
       }
-      console.log("direction after", direction) 
-}
+      console.log("direction after", direction)
+      console.log("bat angle", bat.angle)
+      if (direction < 0) direction = 360 - direction
+      if (direction > 360) direction = direction - 360
+    }
      
-  } else if (y >= batYLeft && y >= batYRight) {
+  }
+  if (y >= lowCorner+20) {
     console.log("stop")
       // placeholder for game over
       setBallCoords(coords=>{
         const newCoords={...coords}
-       newCoords.x=bat.x+bat.width/2
+       newCoords.x=bat.x
        newCoords.y=bat.y-10
        newCoords.direction=45
       return newCoords

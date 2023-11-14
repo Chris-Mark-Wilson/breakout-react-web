@@ -4,7 +4,8 @@ import { Ball } from "../components/Ball";
 import { Bat } from "../components/Bat";
 import { GameContext } from "../contexts/gameContext";
 import { useContext, useState } from "react";
-import { useRef,useEffect } from "react";
+import { useRef, useEffect } from "react";
+import { setNewCoords } from "../utils/setNewCoords";
 
 export const GameScreen = () => {
     const inputRef = useRef(null)
@@ -12,7 +13,7 @@ export const GameScreen = () => {
     const[keyState,setKeyState]=useState({});
  
     const {
-        gameOver, setGameOver,batProps,setBatProps,windowHeight
+        gameOver, setGameOver,batProps,setBatProps,windowHeight,windowWidth,ballCoords,setBallCoords
     } = useContext(GameContext);
 
 
@@ -40,7 +41,7 @@ export const GameScreen = () => {
     useEffect(() => {
         setTimeout(() => {
             setCount(count + 1)
-        },2)
+        },10)
     },[count])
 
     useEffect(() => { 
@@ -56,7 +57,7 @@ export const GameScreen = () => {
                 })
             }
             if(keyState['x']){
-                if(batProps.angle<45){
+                if(batProps.angle<34){
                 setBatProps(current => {
                     return {...current, angle: current.angle + 2}
                 })
@@ -64,23 +65,17 @@ export const GameScreen = () => {
             
             }
             if(keyState['z']){
-                if(batProps.angle>-45){
+                if(batProps.angle>-34){
                 setBatProps(current => {
                     return {...current, angle: current.angle - 2}
                 })
             }
                
             }
-            if(keyState[' ']){
-                setBatProps(current => {
-                    return {...current, y: current.y - 4}
-                })
-            }
-            if(!keyState[' ']&&batProps.y<windowHeight-50){
-                setBatProps(current => {
-                    return {...current, y: current.y + 1}
-                })
-            }
+           if(keyState[' ']){
+               setGameOver(false)
+           }    
+           
 
     }, [count,keyState,batProps])
     
@@ -96,7 +91,7 @@ export const GameScreen = () => {
 <>      <Wall />
       <Ball />
       <Bat inputRef={inputRef} />
-    {gameOver&&<button style={{position:"absolute",top:"70%",left:"70%"}} onClick={onPressHandler}>click</button>}
+    {gameOver&&<><div style={{position:"absolute",top:"50%",left:"40%"}}>z,x - tilt bat, arrows - left,right</div><button style={{position:"absolute",top:"70%",left:"70%"}} onClick={onPressHandler}>Click or Space to Start</button></>}
       </>
   );
 };
