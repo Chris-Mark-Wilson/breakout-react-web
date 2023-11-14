@@ -24,6 +24,13 @@ export const GameScreen = () => {
                 setGameOver(false);
             }
         });
+        return()=>{
+            window.removeEventListener("keydown", (e) => {
+                if (e.key === " ") {
+                    setGameOver(false);
+                }
+            });
+        }
     }, [gameOver]);
 
 
