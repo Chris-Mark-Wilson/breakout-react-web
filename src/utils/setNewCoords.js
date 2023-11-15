@@ -13,7 +13,7 @@ export const setNewCoords = (
     let yv = 0;
   
     // calculate new position based on direction
- 
+
 
     if (direction > 0 && direction < 90) {
       xv = Math.sin((direction * 3.14) / 180);
@@ -167,11 +167,11 @@ export const setNewCoords = (
       return newCoords
     })
       setGameOver(true)
-      return
+      return ({ x, y, direction });
     }
  
  
-  setBallCoords({ x, y, direction });
+ return({ x, y, direction });
 }; //end function
 
   

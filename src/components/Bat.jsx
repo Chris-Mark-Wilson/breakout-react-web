@@ -10,84 +10,11 @@ export const Bat=({inputRef})=>{
     
     
     const{batProps,setBatProps,windowWidth,windowHeight}=useContext(GameContext)
-    const[keyState,setKeyState]=useState({});
+   
   
 
-    useEffect(()=>{//initial setup
-      
-              setBatProps((bat) => {
-                const newBat={...bat}
-                newBat.x= windowWidth / 2 
-                newBat.y=windowHeight - 50,
-                newBat.width=100
-                  return newBat
-                });
-
-
-      inputRef.current.addEventListener('keydown',function(e){
-         setKeyState(state=>{
-          const newState={...state}
-          newState[e.key]=true;
-          return newState
-         })
-      },true);    
-      inputRef.current.addEventListener('keyup',function(e){
-          setKeyState(state=>{
-              const newState={...state}
-              newState[e.key]=false;
-              return newState
-             })
-      }, true);
-
-      return ()=>{
-        inputRef.current.removeEventListener('keydown',function(e){
-          setKeyState(state=>{
-           const newState={...state}
-           newState[e.key]=true;
-           return newState
-          })
-       },true);    
-       inputRef.current.removeEventListener('keyup',function(e){
-           setKeyState(state=>{
-               const newState={...state}
-               newState[e.key]=false;
-               return newState
-              })
-       }, true);
-      }           
-  },[])
-  useEffect(() => { 
-        
-    if(keyState['ArrowLeft']) {
-        setBatProps(current => {
-            return {...current, x: current.x - 10}
-        })
-     }
-        if(keyState['ArrowRight']) {
-            setBatProps(current => {
-                return {...current, x: current.x + 10}
-            })
-        }
-        if(keyState['x']){
-            if(batProps.angle<34){
-            setBatProps(current => {
-                return {...current, angle: current.angle + 2}
-            })
-        }
-        
-        }
-        if(keyState['z']){
-            if(batProps.angle>-34){
-            setBatProps(current => {
-                return {...current, angle: current.angle - 2}
-            })
-        }
-           
-        }
-      
-       
-
-}, [keyState,batProps])
+ 
+  
 
  
 
