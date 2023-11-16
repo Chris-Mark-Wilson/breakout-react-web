@@ -18,7 +18,7 @@ export const Bat=({inputRef})=>{
               setBatProps((bat) => {
                 const newBat={...bat}
                 newBat.x= windowWidth / 2 
-                newBat.y=windowHeight - 50,
+                newBat.y=windowHeight - 80,
                 newBat.width=100
                   return newBat
                 });
@@ -60,12 +60,12 @@ export const Bat=({inputRef})=>{
         
     if(keyState['ArrowLeft']) {
         setBatProps(current => {
-            return {...current, x: current.x - 10}
+            return {...current, x: current.x - 5}
         })
      }
         if(keyState['ArrowRight']) {
             setBatProps(current => {
-                return {...current, x: current.x + 10}
+                return {...current, x: current.x + 5}
             })
         }
         if(keyState['x']){
