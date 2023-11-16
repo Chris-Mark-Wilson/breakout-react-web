@@ -8,7 +8,7 @@ export const setNewCoords = (
     bat,
     setGameOver) => {
     let { x, y, direction } = ballCoords;
-    const speed = 2;
+    const speed = 8;
     let xv = 0;
     let yv = 0;
   

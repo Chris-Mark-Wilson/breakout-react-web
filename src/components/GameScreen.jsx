@@ -9,19 +9,35 @@ import { setNewCoords } from "../utils/setNewCoords";
 
 
 export const GameScreen = () => {
-    const inputRef = useRef(null)
-    const [keyState, setKeyState] = useState({});
-   
-   
- 
     const {
         gameOver, setGameOver, batProps, setBatProps, windowHeight, windowWidth, ballCoords, setBallCoords
     } = useContext(GameContext);
+    const inputRef = useRef(null)
+    const [keyState, setKeyState] = useState({});
+    const [count, setCount] = useState(0);
+    const keyStateRef = useRef(keyState);
+const batPropsRef = useRef(batProps);
+const ballCoordsRef = useRef(ballCoords);
 
+useEffect(() => {
+  keyStateRef.current = keyState;
+}, [keyState]);
 
+useEffect(() => {
+  batPropsRef.current = batProps;
+}, [batProps]);
+
+useEffect(() => {
+  ballCoordsRef.current = ballCoords;
+}, [ballCoords]);
+   
+   
+ 
+
+// initial setup
     useEffect(() => {
         
-        setBatProps((bat) => {
+        setBatProps((bat)   => {
             const newBat = { ...bat }
             newBat.x = windowWidth / 2
             newBat.y = windowHeight - 50,
@@ -38,8 +54,6 @@ export const GameScreen = () => {
             return newCoords;
         });
         
-        
-        
         inputRef.current.addEventListener('keydown', function (e) {
             setKeyState(state => {
                 const newState = { ...state }
@@ -54,7 +68,6 @@ export const GameScreen = () => {
                 return newState
             })
         }, true);
-    
   
         inputRef.current.focus();
         window.addEventListener("keydown", (e) => {
@@ -62,69 +75,87 @@ export const GameScreen = () => {
                 setGameOver(!gameOver);
             }
         });
-      
-        
-     
-     
-    }, [gameOver]);
-
-    useEffect(() => {
-     
-        if (!gameOver) {
-           
-            setBallCoords((coords) => {
-                const newCoords = { ...coords };
-                const newer = setNewCoords(
-                    ballCoords,
-                    setBallCoords,
-                    windowWidth,
-                    windowHeight,
-                    batProps,
-                    setGameOver
-                );
-                newCoords.x = newer.x;
-                newCoords.y = newer.y;
-                newCoords.direction = newer.direction;
-               
-                return newCoords;
-            })
-          
-
-            if (keyState['ArrowLeft']) {
-                setBatProps(current => {
-                    return { ...current, x: current.x - 10 }
-                })
-            }
-            if (keyState['ArrowRight']) {
-                setBatProps(current => {
-                    return { ...current, x: current.x + 10 }
-                })
-            }
-            if (keyState['x']) {
-                if (batProps.angle < 34) {
-                    setBatProps(current => {
-                        return { ...current, angle: current.angle + 2 }
-                    })
-                }
-                    
-            }
-            if (keyState['z']) {
-                if (batProps.angle > -34) {
-                    setBatProps(current => {
-                        return { ...current, angle: current.angle - 2 }
-                    })
-                }
-                       
-            }
-        }
-           
-      
-        
-        
+        if(!gameOver){
+            requestAnimationFrame(() => {   
+            gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOver,setGameOver,setBatProps,setNewCoords)
+        })
+    }
+    return () => {
+        // Cancel the animation frame when the component unmounts
+            cancelAnimationFrame(requestAnimationFrame(() => {  gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOver,setGameOver,setBatProps,setNewCoords)}));
+        inputRef.current.removeEventListener('keydown', function (e) {  setKeyState(state => {
+            const newState = { ...state }
+            newState[e.key] = true;
+            return newState
+        }) }, true);
     
-},[keyState,batProps,ballCoords,setBallCoords,windowWidth,windowHeight,gameOver,setGameOver,setBatProps,setNewCoords])
+        inputRef.current.removeEventListener('keyup', function (e) {  setKeyState(state => {
+            const newState = { ...state }
+            newState[e.key] = true;
+            return newState
+        }) }, true);    
+    };
 
+    }, [gameOver]);
   
+////////////////////////////////////////////////////////////////////////////
+
+
+//keyState,batProps,ballCoords,setBallCoords,windowWidth,windowHeight,gameOver,setGameOver,setBatProps,setNewCoords
+  const gameLoop=(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOver,setGameOver,setBatProps,setNewCoords)=>{
+  if(!gameOver){
+    setBallCoords((coords) => {
+        const newCoords = { ...coords };
+        const newer = setNewCoords(
+            ballCoordsRef.current,
+            setBallCoords,
+            windowWidth,
+            windowHeight,
+            batPropsRef.current,
+            setGameOver
+        );
+        newCoords.x = newer.x;
+        newCoords.y = newer.y;
+        newCoords.direction = newer.direction;
+       
+        return newCoords;
+    })
+  
+
+    if (keyStateRef.current['ArrowLeft']) {
+        setBatProps(current => {
+            return { ...current, x: current.x - 10 }
+        })
+    }
+    if (keyStateRef.current['ArrowRight']) {
+        setBatProps(current => {
+            return { ...current, x: current.x + 10 }
+        })
+    }
+    if (keyStateRef.current['x']) {
+        if (batProps.angle < 34) {
+            setBatProps(current => {
+                return { ...current, angle: current.angle + 2 }
+            })
+        }
+            
+    }
+    if (keyStateRef.current['z']) {
+        if (batProps.angle > -34) {
+            setBatProps(current => {
+                return { ...current, angle: current.angle - 2 }
+            })
+        }
+               
+    }
+
+    requestAnimationFrame(() => {
+        gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOver,setGameOver,setBatProps,setNewCoords)
+       })
+
+    }
+
+  }
 
     const onPressHandler = () => {
         setGameOver(false);
