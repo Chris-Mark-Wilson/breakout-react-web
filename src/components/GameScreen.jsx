@@ -36,6 +36,10 @@ useEffect(()=>{
 },[gameOver])
    
    //Ok so the only way I can get the gameloop to work without memory overflow is to use useRef and pass the refs to the gameloop function  as arguments
+    //I have tried to use the state variables directly but it causes memory overflow
+    //I have tried to use the state variables in the dependency array of the useEffect but it causes memory overflow
+    //I have tried to use the state variables in the dependency array of the useEffect and pass the state variables to the gameloop function as arguments but it causes memory overflow
+    //This way the useRef ensures the state variables are not recreated on every render and the dependency array ensures the gameloop function is called only when the state variables change
  
 
 // initial setup
