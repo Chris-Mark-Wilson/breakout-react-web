@@ -1,12 +1,14 @@
 import { checkBat } from "./checkBat";
-
+import { checkBricks } from "./checkBricks";
 export const setNewCoords = (
     ballCoords,
     setBallCoords,
     scrWidth,
     scrHeight,
     bat,
-    setGameOver) => {
+    setGameOver,
+    brickArray,
+    setBrickArray) => {
     let { x, y, direction } = ballCoords;
     const speed = 8;
     let xv = 0;
@@ -80,7 +82,24 @@ export const setNewCoords = (
     }
   
     if (y <= (scrHeight/40)*10) {
-      //check bricks
+     const hitBrick=checkBricks(brickArray,ballCoords)
+
+      if(hitBrick){
+        console.log("hit brick number",hitBrick)
+        //hit brick, remove from array
+        brickArray.splice(hitBrick,1)
+        setBrickArray(brickArray)
+        if (direction < 90) {
+          direction = 360 - direction;
+        } else if (direction > 90&&direction<180) {
+          direction = 270 - (direction - 90);
+        } else if (direction === 90) {
+          direction = 270;
+        }
+      }
+      //hit brick
+
+     
   
       if (direction < 360 && direction > 270) {
         direction = 270 - (direction - 270);
@@ -102,29 +121,13 @@ export const setNewCoords = (
   const lowCorner = Math.max(batYLeft, batYRight)
 
   if (y >= highCorner) {
-    //below highest edge of bat
 
-    // console.log(checkBat(batXLeft,batYLeft,batXRight,batYRight,x,y))
-    // below bat top edge, above bat bottom edge
-    // console.log("\\\\\\\\\\\\\\\\\\\\\\\\")
-    // console.log("bat.x is centre of bat")
-    // console.log(batYLeft, "bat Y", batYRight)
-    //   console.log(batXLeft, "bat X", batXRight)
-    //   console.log("actual batLeft coords", bat.x-(bat.width/2), bat.y)
-    //   console.log("ball coords", x, y)
-    //   console.log("bat angle", bat.angle)
-    //   console.log("newWidth", batXRight - batXLeft)
-    //   console.log("actualWidth", bat.width)
-    //   console.log("batYleft-batYright", batYLeft - batYRight)
-      console.log("below high edge of bat")
-    // console.log("\\\\\\\\\\\\\\\\\\\\\\\\")
     if (x > batXLeft && x < batXRight) {
       //within bat width
-      console.log("within bat width")
+ 
       if (checkBat(batXLeft, batYLeft, batXRight, batYRight, x, y)) {
        //hit bat
-        console.log("hit bat")
-        console.log("direction before", direction)
+    
         if (direction > 180) {
           if (bat.angle < 0) {
             direction = (360 - (direction - 180)) - Math.abs(bat.angle)
@@ -149,8 +152,7 @@ export const setNewCoords = (
           y -= speed;
         }
       }
-      console.log("direction after", direction)
-      console.log("bat angle", bat.angle)
+  
       if (direction < 0) direction = 360 - direction
       if (direction > 360) direction = direction - 360
     }
@@ -158,7 +160,7 @@ export const setNewCoords = (
   }
   if (y >= lowCorner+20) {
     console.log("stop")
-      // placeholder for game over
+      // placeholder for game over/ dropped ball
       setBallCoords(coords=>{
         const newCoords={...coords}
        newCoords.x=bat.x

@@ -10,7 +10,7 @@ import { setNewCoords } from "../utils/setNewCoords";
 
 export const GameScreen = () => {
     const {
-        gameOver, setGameOver, batProps, setBatProps, windowHeight, windowWidth, ballCoords, setBallCoords
+        gameOver, setGameOver, batProps, setBatProps, windowHeight, windowWidth, ballCoords, setBallCoords,brickArray,setBrickArray
     } = useContext(GameContext);
     const inputRef = useRef(null)
     const [keyState, setKeyState] = useState({});
@@ -19,7 +19,10 @@ export const GameScreen = () => {
 const batPropsRef = useRef(batProps);
 const ballCoordsRef = useRef(ballCoords);
 const gameOverRef = useRef(gameOver);
-
+const brickArrayRef = useRef(brickArray);
+useEffect(() => {
+    brickArrayRef.current = brickArray;
+    }, [brickArray]);
 useEffect(() => {
   keyStateRef.current = keyState;
 }, [keyState]);
@@ -83,14 +86,17 @@ useEffect(()=>{
                 setGameOver(!gameOver);
             }
         });
+
+        //start game loop
         if(!gameOver){
             requestAnimationFrame(() => {   
-            gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOverRef,setGameOver,setBatProps,setNewCoords)
+            gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOverRef,setGameOver,setBatProps,setNewCoords,brickArrayRef,setBrickArray)
         })
     }
     return () => {
         // Cancel the animation frame when the component unmounts
-            cancelAnimationFrame(requestAnimationFrame(() => {  gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOverRef,setGameOver,setBatProps,setNewCoords)}));
+            cancelAnimationFrame(requestAnimationFrame(() => {  gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOverRef,setGameOver,setBatProps,setNewCoords,brickArrayRef,setBrickArray)}));
+
         inputRef.current.removeEventListener('keydown', function (e) {  setKeyState(state => {
             const newState = { ...state }
             newState[e.key] = true;
@@ -108,9 +114,9 @@ useEffect(()=>{
   
 ////////////////////////////////////////////////////////////////////////////
 
-
-//keyState,batProps,ballCoords,setBallCoords,windowWidth,windowHeight,gameOver,setGameOver,setBatProps,setNewCoords
-  const gameLoop=(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOverRef,setGameOver,setBatProps,setNewCoords)=>{
+// could possible do this inside the initial useEffect but using refs to pass the state variables to the gameloop function as arguments
+// and using the state variables in the dependency array of the useEffect causes memory overflow
+ const gameLoop=(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOverRef,setGameOver,setBatProps,setNewCoords,brickArrayRef,setBrickArray)=>{
   if(!gameOverRef.current){
     setBallCoords((coords) => {
         const newCoords = { ...coords };
@@ -120,7 +126,9 @@ useEffect(()=>{
             windowWidth,
             windowHeight,
             batPropsRef.current,
-            setGameOver
+            setGameOver,
+            brickArrayRef.current,
+            setBrickArray
         );
         newCoords.x = newer.x;
         newCoords.y = newer.y;
@@ -156,9 +164,9 @@ useEffect(()=>{
         }
                
     }
-
+    //recursive call to gameLoop
     requestAnimationFrame(() => {
-        gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOverRef,setGameOver,setBatProps,setNewCoords)
+        gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOverRef,setGameOver,setBatProps,setNewCoords,brickArrayRef,setBrickArray)
        })
 
     }
