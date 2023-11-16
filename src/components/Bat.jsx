@@ -1,15 +1,15 @@
 
 import { useContext } from "react"
 import { GameContext } from "../contexts/gameContext"
-import { useEffect } from "react"
 
 
 
-import { useState } from "react";
+
+
 export const Bat=({inputRef})=>{
     
     
-    const{batProps,setBatProps,windowWidth,windowHeight}=useContext(GameContext)
+    const{batProps}=useContext(GameContext)
    
   
 

@@ -18,6 +18,7 @@ export const GameScreen = () => {
     const keyStateRef = useRef(keyState);
 const batPropsRef = useRef(batProps);
 const ballCoordsRef = useRef(ballCoords);
+const gameOverRef = useRef(gameOver);
 
 useEffect(() => {
   keyStateRef.current = keyState;
@@ -30,6 +31,9 @@ useEffect(() => {
 useEffect(() => {
   ballCoordsRef.current = ballCoords;
 }, [ballCoords]);
+useEffect(()=>{
+    gameOverRef.current=gameOver
+},[gameOver])
    
    
  
@@ -77,12 +81,12 @@ useEffect(() => {
         });
         if(!gameOver){
             requestAnimationFrame(() => {   
-            gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOver,setGameOver,setBatProps,setNewCoords)
+            gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOverRef,setGameOver,setBatProps,setNewCoords)
         })
     }
     return () => {
         // Cancel the animation frame when the component unmounts
-            cancelAnimationFrame(requestAnimationFrame(() => {  gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOver,setGameOver,setBatProps,setNewCoords)}));
+            cancelAnimationFrame(requestAnimationFrame(() => {  gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOverRef,setGameOver,setBatProps,setNewCoords)}));
         inputRef.current.removeEventListener('keydown', function (e) {  setKeyState(state => {
             const newState = { ...state }
             newState[e.key] = true;
@@ -102,8 +106,8 @@ useEffect(() => {
 
 
 //keyState,batProps,ballCoords,setBallCoords,windowWidth,windowHeight,gameOver,setGameOver,setBatProps,setNewCoords
-  const gameLoop=(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOver,setGameOver,setBatProps,setNewCoords)=>{
-  if(!gameOver){
+  const gameLoop=(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOverRef,setGameOver,setBatProps,setNewCoords)=>{
+  if(!gameOverRef.current){
     setBallCoords((coords) => {
         const newCoords = { ...coords };
         const newer = setNewCoords(
@@ -150,7 +154,7 @@ useEffect(() => {
     }
 
     requestAnimationFrame(() => {
-        gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOver,setGameOver,setBatProps,setNewCoords)
+        gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOverRef,setGameOver,setBatProps,setNewCoords)
        })
 
     }
