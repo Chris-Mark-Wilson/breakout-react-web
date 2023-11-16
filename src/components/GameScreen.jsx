@@ -35,7 +35,7 @@ useEffect(()=>{
     gameOverRef.current=gameOver
 },[gameOver])
    
-   
+   //Ok so the only way I can get the gameloop to work without memory overflow is to use useRef and pass the refs to the gameloop function  as arguments
  
 
 // initial setup
