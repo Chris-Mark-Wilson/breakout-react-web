@@ -89,6 +89,8 @@ export const setNewCoords = (
         //hit brick, remove from array
         brickArray.splice(hitBrick,1)
         setBrickArray(brickArray)
+
+        //bounce back,doesnt yet go further than bottom edge
         if (direction < 90) {
           direction = 360 - direction;
         } else if (direction > 90&&direction<180) {
@@ -99,8 +101,8 @@ export const setNewCoords = (
       }
       //hit brick
 
-     
-  
+     //original bounce
+  //doesnt yet go further than bottom edge
       if (direction < 360 && direction > 270) {
         direction = 270 - (direction - 270);
       } else if (direction > 0 && direction < 90) {
