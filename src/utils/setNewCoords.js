@@ -8,12 +8,12 @@ export const setNewCoords = (
     bat,
     setGameOver) => {
     let { x, y, direction } = ballCoords;
-    const speed = 2;
+    const speed = 8;
     let xv = 0;
     let yv = 0;
   
     // calculate new position based on direction
- 
+
 
     if (direction > 0 && direction < 90) {
       xv = Math.sin((direction * 3.14) / 180);
@@ -167,11 +167,11 @@ export const setNewCoords = (
       return newCoords
     })
       setGameOver(true)
-      return
+      return ({ x, y, direction });
     }
  
  
-  setBallCoords({ x, y, direction });
+ return({ x, y, direction });
 }; //end function
 
   

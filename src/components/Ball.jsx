@@ -6,42 +6,15 @@ import { setNewCoords } from "../utils/setNewCoords";
 import { GameContext } from "../contexts/gameContext";
 
 export const Ball = () => {
-  const { batProps, windowWidth, windowHeight, gameOver,setGameOver } = useContext(
+  const { ballCoords} = useContext(
     GameContext
   )
-  const [ballCoords, setBallCoords] = useState({
-    x: 0,
-    y: 0,
-    direction: 45,
-  });
+ 
 
-  //initial setup
-  useEffect(() => {
-    const startY = windowHeight - 60;
-    const startX = windowWidth / 2;
-    setBallCoords((coords) => {
-      const newCoords = { ...coords };
-      newCoords.x = startX;
-      newCoords.y = startY;
-      return newCoords;
-    });
-  }, []);
+ 
   //end initial setup
 
-  useEffect(() => {
-    if (!gameOver) {
-      setTimeout(() => {
-        setNewCoords(
-          ballCoords,
-          setBallCoords,
-          windowWidth,
-windowHeight,
-          batProps,
-          setGameOver
-        );
-      }, 1);
-    }
-  }, [gameOver, ballCoords]);
+
 
   return (
     <div
