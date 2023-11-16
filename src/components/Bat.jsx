@@ -10,9 +10,11 @@ export const Bat=({inputRef})=>{
     
     
     const{batProps,setBatProps,windowWidth,windowHeight}=useContext(GameContext)
-    const[keyState,setKeyState]=useState({});
+   
   
 
+ 
+  
     useEffect(()=>{//initial setup
       
               setBatProps((bat) => {
