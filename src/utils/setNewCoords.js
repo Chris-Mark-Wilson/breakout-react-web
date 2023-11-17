@@ -87,22 +87,36 @@ export const setNewCoords = (
       if(hitBrick){
         console.log("hit brick number",hitBrick)
         //hit brick, remove from array
-        brickArray.splice(hitBrick,1)
-        setBrickArray(brickArray)
+        setBrickArray(oldbrickArray=>{
+          const newBrickArray=[...oldbrickArray]
+          newBrickArray.splice(hitBrick,1)
+          return newBrickArray
+        })
+        //now check how the wall is rendered...
 
         //bounce back,doesnt yet go further than bottom edge
         if (direction < 90) {
-          direction = 360 - direction;
-        } else if (direction > 90&&direction<180) {
-          direction = 270 - (direction - 90);
+          direction = 90 + (90 - direction)
+        } else if (direction > 90 && direction < 180) {
+          direction = 90 - (direction - 90);
+        } else if (direction > 270 && direction < 360) {
+          direction = 270 - (direction - 270)
+        } else if (direction > 180 && direction < 270) {
+          direction = 270 + (270 - direction)
         } else if (direction === 90) {
           direction = 270;
+        } else if (direction === 270) {
+          direction = 90
+        } else if (direction === 180) {
+          direction = 0
+        } else if (direction === 360) {
+          direction = 180
         }
+        //hit brick
       }
-      //hit brick
-
      //original bounce
   //doesnt yet go further than bottom edge
+  if(y<=0){
       if (direction < 360 && direction > 270) {
         direction = 270 - (direction - 270);
       } else if (direction > 0 && direction < 90) {
@@ -110,6 +124,7 @@ export const setNewCoords = (
       }
       else if(direction===0){direction=180}
     }
+  }
     /////////////////////////////bottom of screen///////////////////////////////
   //calculate Y positions of edges of bat
   const batYLeft = bat.y - (Math.sin((bat.angle * 3.14) / 180) * bat.width/2)

@@ -149,7 +149,7 @@ useEffect(()=>{
         })
     }
     if (keyStateRef.current['x']) {
-        if (batProps.angle < 34) {
+        if (batPropsRef.current.angle < 34) {
             setBatProps(current => {
                 return { ...current, angle: current.angle + 2 }
             })
@@ -157,7 +157,7 @@ useEffect(()=>{
             
     }
     if (keyStateRef.current['z']) {
-        if (batProps.angle > -34) {
+        if (batPropsRef.current.angle > -34) {
             setBatProps(current => {
                 return { ...current, angle: current.angle - 2 }
             })
