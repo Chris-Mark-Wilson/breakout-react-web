@@ -8,7 +8,7 @@ export function checkBricks(brickArray, ballCoords) {
       ballCoords.y +2>= brick.top &&
       ballCoords.y -2<= brick.top + brick.height
     ) {
-      return i;
+      return brick.id;
     }
   }
   return false;

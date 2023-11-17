@@ -88,8 +88,8 @@ export const setNewCoords = (
         console.log("hit brick number",hitBrick)
         //hit brick, remove from array
         setBrickArray(oldbrickArray=>{
-          const newBrickArray=[...oldbrickArray]
-          newBrickArray.splice(hitBrick,1)
+          const newBrickArray=oldbrickArray.filter(brick=>brick.id!==hitBrick)
+       
           return newBrickArray
         })
         //now check how the wall is rendered...
