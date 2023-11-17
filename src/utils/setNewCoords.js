@@ -10,7 +10,8 @@ export const setNewCoords = (
     brickArray,
     setBrickArray) => {
     let { x, y, direction } = ballCoords;
-    const speed = 8;
+  const speed = ((204 - brickArray.length) / 10) + 8;
+  console.log(speed)
     let xv = 0;
     let yv = 0;
   
@@ -85,16 +86,17 @@ export const setNewCoords = (
      const hitBrick=checkBricks(brickArray,ballCoords)
 
       if(hitBrick){
-        console.log("hit brick number",hitBrick)
+      
         //hit brick, remove from array
         setBrickArray(oldbrickArray=>{
-          const newBrickArray=oldbrickArray.filter(brick=>brick.id!==hitBrick)
+          const newBrickArray = oldbrickArray.filter(brick => brick.id !== hitBrick)
+          //not sure why yet but can never get the 1st brick in the array, index 0, brick.id===0??
        
           return newBrickArray
         })
-        //now check how the wall is rendered...
+        //now check how the wall is rendered... theyve all got unique id's so???
 
-        //bounce back,doesnt yet go further than bottom edge
+        //bounce back, off the brick
         if (direction < 90) {
           direction = 90 + (90 - direction)
         } else if (direction > 90 && direction < 180) {
@@ -112,10 +114,9 @@ export const setNewCoords = (
         } else if (direction === 360) {
           direction = 180
         }
-        //hit brick
+      
       }
-     //original bounce
-  //doesnt yet go further than bottom edge
+//else if top of screen rebound..
   if(y<=0){
       if (direction < 360 && direction > 270) {
         direction = 270 - (direction - 270);
@@ -189,7 +190,7 @@ export const setNewCoords = (
       return ({ x, y, direction });
     }
  
- 
+ //return new ball coords and direction
  return({ x, y, direction });
 }; //end function
 

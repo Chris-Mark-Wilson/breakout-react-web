@@ -66,11 +66,20 @@ useEffect(()=>{
         });
         
         inputRef.current.addEventListener('keydown', function (e) {
-            setKeyState(state => {
-                const newState = { ...state }
-                newState[e.key] = true;
-                return newState
-            })
+            
+            if (e.key === " ") {
+             
+                    setGameOver(!gameOverRef.current)
+             
+            }
+            
+            if (!keyStateRef.current[e.key]) {
+                setKeyState(state => {
+                    const newState = { ...state }
+                    newState[e.key] = true;
+                    return newState
+                })
+            }
         }, true);
         inputRef.current.addEventListener('keyup', function (e) {
             setKeyState(state => {
@@ -104,7 +113,10 @@ useEffect(()=>{
     }, []);
 
     useEffect(() => {
-             //start game loop
+        //start game loop
+        if (keyState[' ']) {
+            setGameOver(!gameOver);
+        }
              if (!gameOver) {
             
                 inputRef.current.focus();
@@ -115,13 +127,16 @@ useEffect(()=>{
         }
     },[gameOver])
   
-////////////////////////////////////////////////////////////////////////////
-
-// could possible do this inside the initial useEffect but using refs to pass the state variables to the gameloop function as arguments
-// and using the state variables in the dependency array of the useEffect causes memory overflow
- const gameLoop=(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOverRef,setGameOver,setBatProps,setNewCoords,brickArrayRef,setBrickArray)=>{
+    ////////////////////////////////////////////////////////////////////////////
+    
+    // could possible do this inside the initial useEffect but using refs to pass the state variables to the gameloop function as arguments
+    // and using the state variables in the dependency array of the useEffect causes memory overflow
+    const gameLoop = (keyStateRef, batPropsRef, ballCoordsRef, setBallCoords, windowWidth, windowHeight,gameOverRef, setGameOver, setBatProps, setNewCoords, brickArrayRef, setBrickArray) => {
+        
+        
+        //this does too much, checks Hit Bat, wall rebounds, brick hit sets game over the lot.. probably should separate concerns.. but it works
      if (!gameOverRef.current) {
-      console.log(keyStateRef.current)
+     
     setBallCoords((coords) => {
         const newCoords = { ...coords };
         const newer = setNewCoords(
@@ -173,9 +188,6 @@ useEffect(()=>{
         }
                
     }
-         if (keyStateRef.current[' ']) {
-             setGameOver(!gameOverRef.current);
-            }
     //recursive call to gameLoop
     requestAnimationFrame(() => {
         gameLoop(keyStateRef,batPropsRef,ballCoordsRef,setBallCoords,windowWidth,windowHeight,gameOverRef,setGameOver,setBatProps,setNewCoords,brickArrayRef,setBrickArray)
