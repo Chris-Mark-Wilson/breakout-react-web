@@ -38,7 +38,7 @@ export  const createNewWall=(setBrickArray)=>{
 }
       }
       // newArray.forEach((brick,index)=>{
-      //   console.log(brick.id,index)
+      //   console.log(brick.id,index,brick.top,brick.left)
       // })
 
   return newArray
