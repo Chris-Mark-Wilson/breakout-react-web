@@ -158,11 +158,16 @@ export const setNewCoords = (
             y -= speed;
           }
         } else if (direction < 180) {
-          if (bat.angle <= 0) {
-            direction = 180 - direction - Math.abs(bat.angle)
+          if (bat.angle < 0) { //this bit is wrong
+            direction = (180 - direction) - Math.abs(bat.angle)
+            if(direction<0){direction=360+direction}
             y -= speed;
           } else if (bat.angle > 0) {
-            direction = 180 - direction + bat.angle
+            direction = (180 - direction) + bat.angle
+            y -= speed;
+          }
+          else if (bat.angle === 0) {
+            direction = 180-direction
             y -= speed;
           }
         } else if (direction === 180) {
