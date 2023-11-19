@@ -1,20 +1,11 @@
-
-
-
 import { useState, useEffect, useContext } from "react";
-import { setNewCoords } from "../utils/setNewCoords";
+
 import { GameContext } from "../contexts/gameContext";
 
 export const Ball = () => {
-  const { ballCoords} = useContext(
-    GameContext
-  )
- 
+  const { ballCoords } = useContext(GameContext);
 
- 
   //end initial setup
-
-
 
   return (
     <div
@@ -25,7 +16,7 @@ export const Ball = () => {
         position: "absolute",
         top: ballCoords.y,
         left: ballCoords.x,
-        borderRadius:"50%"
+        borderRadius: "50%",
       }}
     ></div>
   );

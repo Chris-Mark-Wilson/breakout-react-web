@@ -1,14 +1,16 @@
-export function checkBricks(brickArray, ballCoords) {
-   
-  for (let i = 0; i < brickArray.length; i++) {
-    const brick = brickArray[i];
-    if (
-      ballCoords.x +2>= brick.left &&
-      ballCoords.x -2<= brick.left + brick.width &&
-      ballCoords.y +2>= brick.top &&
-      ballCoords.y -2<= brick.top + brick.height
-    ) {
-      return brick.id;
+export function checkBricks(brickArray, x, y, windowHeight) {
+  if (y <= (windowHeight / 40) * 10) {
+
+    for (let i = 0; i < brickArray.length; i++) {
+      const brick = brickArray[i];
+      if (
+        x >= brick.left &&
+        x <= brick.left + brick.width &&
+        y >= brick.top &&
+        y <= brick.top + brick.height
+      ) {
+        return brick.id;
+      }
     }
   }
   return false;
