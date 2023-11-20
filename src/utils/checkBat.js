@@ -22,8 +22,8 @@ export const checkBat = (x, y, bat) => {
 
   // Check if the calculated y-coordinate matches the actual bally
 
-  return y > expectedY;
-    //the -2 is a bt of a fudge factor to account for the ball moving faster than the bat
+  return y => expectedY +2 && y<expectedY;
+  
   }
   return false;
 };

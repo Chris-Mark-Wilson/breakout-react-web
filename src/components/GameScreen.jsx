@@ -100,7 +100,10 @@ export const GameScreen = () => {
       true
     );
 
-    startRef.current.focus();
+      startRef.current.focus();
+      requestAnimationFrame(() => {
+          batLoop(keyStateRef, setBatProps);
+      },true)   
 
     return () => {
       // Cancel the animation frame when the component unmounts
@@ -168,6 +171,7 @@ export const GameScreen = () => {
         setBrickArray,
         startRef
       );
+        batLoop(keyStateRef,setBatProps);
     });
   }, [gameOver]);
 
@@ -190,7 +194,7 @@ export const GameScreen = () => {
     setBrickArray,
     startRef
   ) => {
-    //this does too much, checks Hit Bat, wall rebounds, brick hit sets game over the lot.. probably should separate concerns.. but it works
+  
     if (!gameOverRef.current) {
         inputRef.current.focus();
         const speed = ((204 - brickArrayRef.current.length) / 20) + 8;
@@ -223,7 +227,7 @@ export const GameScreen = () => {
               direction,
             speed
           ));
-            console.log({ x, y, direction })
+            
         }
 
         //adjust for calculation errors
@@ -236,10 +240,10 @@ export const GameScreen = () => {
           console.log("stop");
           // placeholder for game over/ dropped ball
          
-            
+            console.log(batPropsRef.current)
             x = batPropsRef.current.x;
             y = batPropsRef.current.y - 10;
-            direction = 45;
+            direction = batPropsRef.current.angle>=0?batPropsRef.current.angle:360-batPropsRef.current.angle;
             setBallCoords({ x, y, direction });
           setGameOver(true);
         }
@@ -250,43 +254,43 @@ export const GameScreen = () => {
 
         //move bat according to keypress
 
-      if (keyStateRef.current["ArrowLeft"]) {
-        if (batPropsRef.current.x > batPropsRef.current.width / 2) {
-          setBatProps((current) => {
-            return { ...current, x: current.x - 10 };
-          });
-        }
-      }
-      if (keyStateRef.current["ArrowRight"]) {
-        if (
-          batPropsRef.current.x <
-          windowWidth - batPropsRef.current.width / 2
-        ) {
-          setBatProps((current) => {
-            return { ...current, x: current.x + 10 };
-          });
-        }
-      }
-      if (keyStateRef.current["x"]) {
-        if (batPropsRef.current.angle < 34) {
-          setBatProps((current) => {
-            return { ...current, angle: current.angle + 2 };
-          });
-        }
-      }
-      if (keyStateRef.current["z"]) {
-        if (batPropsRef.current.angle > -34) {
-          setBatProps((current) => {
-            return { ...current, angle: current.angle - 2 };
-          });
-        }
-      }
+    //   if (keyStateRef.current["ArrowLeft"]) {
+    //     if (batPropsRef.current.x > batPropsRef.current.width / 2) {
+    //       setBatProps((current) => {
+    //         return { ...current, x: current.x - 10 };
+    //       });
+    //     }
+    //   }
+    //   if (keyStateRef.current["ArrowRight"]) {
+    //     if (
+    //       batPropsRef.current.x <
+    //       windowWidth - batPropsRef.current.width / 2
+    //     ) {
+    //       setBatProps((current) => {
+    //         return { ...current, x: current.x + 10 };
+    //       });
+    //     }
+    //   }
+    //   if (keyStateRef.current["x"]) {
+    //     if (batPropsRef.current.angle < 34) {
+    //       setBatProps((current) => {
+    //         return { ...current, angle: current.angle + 2 };
+    //       });
+    //     }
+    //   }     
+    //   if (keyStateRef.current["z"]) {
+    //     if (batPropsRef.current.angle > -34) {
+    //       setBatProps((current) => {
+    //         return { ...current, angle: current.angle - 2 };
+    //       });
+    //     }
+    //   }
       //recursive call to gameLoop
       requestAnimationFrame(() => {
         gameLoop(
           keyStateRef,
           batPropsRef,
-          ballCoordsRef,
+          ballCoordsRef,      
           setBallCoords,
           windowWidth,
           windowHeight,
@@ -300,10 +304,47 @@ export const GameScreen = () => {
         );
       });
     } else {
-      startRef.current.focus(); //return focus to start button
-      setKeyState({}); //reset keyState
+    //   startRef.current.focus(); //return focus to start button
+    //   setKeyState({}); //reset keyState
     }
   };
+    
+    const batLoop = (keyStateRef,setBatProps) => {
+        if (keyStateRef.current["ArrowLeft"]) {
+            if (batPropsRef.current.x > batPropsRef.current.width / 2) {
+              setBatProps((current) => {
+                return { ...current, x: current.x - 10 };
+              });
+            }
+          }
+          if (keyStateRef.current["ArrowRight"]) {
+            if (
+              batPropsRef.current.x <
+              windowWidth - batPropsRef.current.width / 2
+            ) {
+              setBatProps((current) => {
+                return { ...current, x: current.x + 10 };
+              });
+            }
+          }
+          if (keyStateRef.current["x"]) {
+            if (batPropsRef.current.angle < 34) {
+              setBatProps((current) => {
+                return { ...current, angle: current.angle + 2 };
+              });
+            }
+          }     
+          if (keyStateRef.current["z"]) {
+            if (batPropsRef.current.angle > -34) {
+              setBatProps((current) => {
+                return { ...current, angle: current.angle - 2 };
+              });
+            }
+          }
+        requestAnimationFrame(() => {
+            batLoop(keyStateRef, setBatProps);
+        },true)
+    }
 
   return (
     <>
